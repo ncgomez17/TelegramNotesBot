@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: TelegramNotesBot
+
+bot:
+  api-key: "123456:ABCDEF-TOKEN"
+  username: "MiSuperBot"
+  webhook-path: "/webhook/telegram"
