@@ -1,4 +1,4 @@
-package bot;
+package com.example.TelegramNotesBot.bot;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
-package bot;
+package com.example.TelegramNotesBot.bot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import constantes.BotCommands;
+import com.example.TelegramNotesBot.constantes.BotCommands;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

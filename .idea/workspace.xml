@@ -5,19 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8348f720-1e75-4a7d-8393-3d2451ad0e32" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bot/BotCommandInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bot/BotProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bot/TelegramBot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/TelegramBotConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/TelegramNotesBotApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/constantes/BotCommands.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/TelegramNotesBot/TelegramNotesBotApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bot/BotCommandInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/bot/BotCommandInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bot/BotProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/bot/BotProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bot/TelegramBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/bot/TelegramBot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/TelegramBotConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/TelegramBotConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/constantes/BotCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/constantes/BotCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/TelegramNotesBot/TelegramNotesBotApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/TelegramNotesBot/TelegramNotesBotApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,13 +42,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "E:/Projects/TelegramNotesBot/src/test/resources",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Projects\TelegramNotesBot\src\test\resources" />
+    </key>
+  </component>
   <component name="RunManager" selected="Maven.TelegramNotesBot [spring-boot:run]">
+    <configuration name="TelegramNotesBotApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TelegramNotesBot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.TelegramNotesBot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.TelegramNotesBot" />
+      <option name="MAIN_CLASS_NAME" value="com.example.TelegramNotesBot.TelegramNotesBotApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TelegramNotesBot [clean,install]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -102,9 +123,15 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="JUnit.TelegramNotesBotApplicationTests" />
       <item itemvalue="Maven.TelegramNotesBot [spring-boot:run]" />
       <item itemvalue="Maven.TelegramNotesBot [clean,install]" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TelegramNotesBotApplicationTests" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

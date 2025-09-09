@@ -1,7 +1,9 @@
 package com.example.TelegramNotesBot;
 
-import bot.TelegramBot;
+import com.example.TelegramNotesBot.bot.BotProperties;
+import com.example.TelegramNotesBot.bot.TelegramBot;
 import lombok.Getter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -11,6 +13,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
 @Getter
+@EnableConfigurationProperties(BotProperties.class)
 public class TelegramBotConfig {
 
     @Bean
