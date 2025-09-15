@@ -6,7 +6,9 @@ import com.example.TelegramNotesBot.constantes.BotCommands;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -23,13 +25,13 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 @Component
-public class TelegramBot extends TelegramLongPollingBot {
+public class TelegramBot extends TelegramWebhookBot {
 
     private static final Logger logger = LoggerFactory.getLogger(TelegramBot.class);
 
     private final BotProperties botProperties;
 
-    public TelegramBot(BotProperties botProperties, DefaultBotOptions options) {
+    public TelegramBot(BotProperties botProperties,  DefaultBotOptions options) {
         super(options, botProperties.getApiKey());
         this.botProperties = botProperties;
 
@@ -49,12 +51,16 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onRegister() {
-        super.onRegister();
+    public String getBotToken() {
+        return botProperties.getApiKey();
+    }
+    @Override
+    public String getBotPath() {
+        return "/webhook";
     }
 
     @Override
-    public void onUpdateReceived(Update update) {
+    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             String chatId = update.getMessage().getChatId().toString();
@@ -68,11 +74,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         } else if (update.hasCallbackQuery()) {
             handleCallbackQuery(update.getCallbackQuery());
         }
-    }
-
-    @Override
-    public void onUpdatesReceived(List<Update> updates) {
-        super.onUpdatesReceived(updates);
+        return null;
     }
 
     private void handleCommands(String chatId, String receivedMessage, String username) {
