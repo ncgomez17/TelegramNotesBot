@@ -5,4 +5,4 @@ spring:
 bot:
   api-key: ${TELEGRAM_BOT_API_KEY}
   username: ${TELEGRAM_BOT_USERNAME}
-  webhook-path: "/webhook/telegram"
+  webhook-path: "/webhook"
