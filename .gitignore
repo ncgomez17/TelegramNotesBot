@@ -31,4 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
-.env
+# Ignorar cualquier .env en cualquier carpeta
+**/.env
+

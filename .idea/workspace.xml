@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8348f720-1e75-4a7d-8393-3d2451ad0e32" name="Changes" comment="Cambio url webhook">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/model/bot/astronomy/AstronomyProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/services/NasaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/bot/BotCommandInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/model/bot/BotCommandInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/bot/BotProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/model/bot/BotProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/bot/TelegramBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/services/TelegramBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/bot/TelegramBotConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/config/TelegramBotConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/constantes/BotCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/constantes/BotCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/handlers/TelegramWebhookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/TelegramNotesBot/handlers/TelegramWebhookController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+    <list default="true" id="8348f720-1e75-4a7d-8393-3d2451ad0e32" name="Changes" comment="feat: Integrar servicio NASA APOD en TelegramBot con configuración por YAML y .env">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1757953039578</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: Integrar servicio NASA APOD en TelegramBot con configuración por YAML y .env">
+      <created>1759866357945</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1759866357945</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,6 +212,7 @@
     <MESSAGE value="Añadido Dockerfile" />
     <MESSAGE value="Transformado boot de telegram para que use webhooks" />
     <MESSAGE value="Cambio url webhook" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambio url webhook" />
+    <MESSAGE value="feat: Integrar servicio NASA APOD en TelegramBot con configuración por YAML y .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Integrar servicio NASA APOD en TelegramBot con configuración por YAML y .env" />
   </component>
 </project>
