@@ -4,6 +4,7 @@ package com.example.TelegramNotesBot.services;
 import com.example.TelegramNotesBot.model.bot.astronomy.AstronomyProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
@@ -12,19 +13,23 @@ import java.util.Map;
 public class NasaService {
 
     private final AstronomyProperties properties;
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     public NasaService(AstronomyProperties properties) {
         this.properties = properties;
-        this.restTemplate = new RestTemplate();
+        this.webClient = WebClient.builder()
+                .baseUrl(properties.getNasa().getBaseUrl())
+                .build();
     }
 
     public Map<String, Object> getAstronomyPictureOfTheDay() {
-        String url = UriComponentsBuilder
-                .fromHttpUrl(properties.getNasa().getBaseUrl() + "/planetary/apod")
-                .queryParam("api_key", properties.getNasa().getApiKey())
-                .toUriString();
-
-        return restTemplate.getForObject(url, Map.class);
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/planetary/apod")
+                        .queryParam("api_key", properties.getNasa().getApiKey())
+                        .build())
+                .retrieve()
+                .bodyToMono(Map.class)
+                .block();
     }
 }

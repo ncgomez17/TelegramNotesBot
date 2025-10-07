@@ -1,26 +1,32 @@
 package com.example.TelegramNotesBot.services;
 
+import com.example.TelegramNotesBot.constantes.BotCommandHandler;
 import com.example.TelegramNotesBot.model.bot.BotProperties;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class TelegramBot extends TelegramWebhookBot {
 
     private final BotProperties botProperties;
-    private final NasaService nasaService;
+    private final BotCommandRegistry commandRegistry;
 
-    public TelegramBot(BotProperties botProperties, NasaService nasaService, DefaultBotOptions options) {
+    public TelegramBot(BotProperties botProperties,
+                       BotCommandRegistry commandRegistry,
+                       DefaultBotOptions options) {
         super(options);
         this.botProperties = botProperties;
-        this.nasaService = nasaService;
+        this.commandRegistry = commandRegistry;
     }
 
     @Override
@@ -39,36 +45,29 @@ public class TelegramBot extends TelegramWebhookBot {
     }
 
     @Override
-    public SendMessage onWebhookUpdateReceived(Update update) {
+    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String chatId = update.getMessage().getChatId().toString();
             String messageText = update.getMessage().getText().toLowerCase();
-
-            try {
-                switch (messageText) {
-                    case "/start":
-                        return new SendMessage(chatId, "👋 ¡Hola! Soy tu bot astronómico.\nUsa /nasa para ver la imagen del día 🚀");
-                    case "/nasa":
-                        Map<String, Object> apod = nasaService.getAstronomyPictureOfTheDay();
-                        String title = (String) apod.get("title");
-                        String explanation = (String) apod.get("explanation");
-                        String imageUrl = (String) apod.get("url");
-
-                        SendPhoto photo = new SendPhoto();
-                        photo.setChatId(chatId);
-                        photo.setPhoto(new org.telegram.telegrambots.meta.api.objects.InputFile(imageUrl));
-                        photo.setCaption("🌌 *" + title + "*\n\n" + explanation);
-                        photo.setParseMode("Markdown");
-
-                        execute(photo);
-                        return null;
-                    default:
-                        return new SendMessage(chatId, "❓ Comando no reconocido. Usa /nasa o /start");
+            BotCommandHandler handler = commandRegistry.getHandler(messageText);
+            if (handler != null) {
+                try {
+                    PartialBotApiMethod<?> response = handler.handle(update);
+                    if (response instanceof BotApiMethod<?>) {
+                        return (BotApiMethod<?>) response;
+                    } else {
+                        return new SendMessage(update.getMessage().getChatId().toString(),
+                                "❌ Error inesperado en el comando");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new SendMessage(update.getMessage().getChatId().toString(), "❌ Error al procesar el comando");
                 }
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+            } else {
+                return new SendMessage(update.getMessage().getChatId().toString(),
+                        "❓ Comando no reconocido. Usa /nasa, /planetas o /start");
             }
         }
         return null;
     }
+
 }
