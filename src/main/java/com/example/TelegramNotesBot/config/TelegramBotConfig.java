@@ -1,6 +1,7 @@
 package com.example.TelegramNotesBot.config;
 
 import com.example.TelegramNotesBot.model.bot.BotProperties;
+import com.example.TelegramNotesBot.services.BotCommandRegistry;
 import com.example.TelegramNotesBot.services.NasaService;
 import com.example.TelegramNotesBot.services.StellariumService;
 import com.example.TelegramNotesBot.services.TelegramBot;
@@ -17,8 +18,9 @@ public class TelegramBotConfig {
     }
 
     @Bean
-    public TelegramBot telegramBot(BotProperties botProperties, NasaService nasaService, StellariumService stellariumService, DefaultBotOptions options) {
-        return new TelegramBot(botProperties, nasaService,stellariumService, options);
+    public TelegramBot telegramBot(BotProperties botProperties, BotCommandRegistry commandRegistry,
+                                   DefaultBotOptions options) {
+        return new TelegramBot(botProperties, commandRegistry, options);
     }
 }
 
