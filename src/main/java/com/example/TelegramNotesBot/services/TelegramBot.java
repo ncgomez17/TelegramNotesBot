@@ -55,12 +55,8 @@ public class TelegramBot extends TelegramWebhookBot {
             if (handler != null) {
                 try {
                     PartialBotApiMethod<?> response = handler.handle(update);
-                    if (response instanceof BotApiMethod<?>) {
-                        return (BotApiMethod<?>) response;
-                    } else {
-                        return new SendMessage(update.getMessage().getChatId().toString(),
-                                "❌ Error inesperado en el comando");
-                    }
+                    System.out.println(response);
+                    return (BotApiMethod<?>) response;
                 } catch (Exception e) {
                     e.printStackTrace();
                     return new SendMessage(update.getMessage().getChatId().toString(), "❌ Error al procesar el comando");

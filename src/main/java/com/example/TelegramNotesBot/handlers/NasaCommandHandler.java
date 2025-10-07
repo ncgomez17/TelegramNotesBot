@@ -28,6 +28,9 @@ public class NasaCommandHandler implements BotCommandHandler {
         String title = (String) apod.get("title");
         String explanation = (String) apod.get("explanation");
         String imageUrl = (String) apod.get("url");
+        System.out.println(title);
+        System.out.println(explanation);
+        System.out.println(imageUrl);
 
         SendPhoto photo = new SendPhoto();
         photo.setChatId(chatId);

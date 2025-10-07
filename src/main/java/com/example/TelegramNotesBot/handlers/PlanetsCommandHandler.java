@@ -21,6 +21,7 @@ public class PlanetsCommandHandler implements BotCommandHandler {
     public SendMessage handle(Update update) {
         String chatId = update.getMessage().getChatId().toString();
         List<String> planets = stellariumService.getVisiblePlanetsTonight();
+        System.out.println(planets);
         return new SendMessage(chatId, "🔭 Planetas visibles esta noche:\n" + String.join(", ", planets));
     }
 }
