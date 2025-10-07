@@ -1,6 +1,6 @@
 package com.example.TelegramNotesBot.handlers;
 
-import com.example.TelegramNotesBot.bot.TelegramBot;
+import com.example.TelegramNotesBot.services.TelegramBot;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

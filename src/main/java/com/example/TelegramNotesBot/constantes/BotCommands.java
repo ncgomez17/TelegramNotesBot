@@ -1,6 +1,6 @@
 package com.example.TelegramNotesBot.constantes;
 
-import com.example.TelegramNotesBot.bot.BotCommandInfo;
+import com.example.TelegramNotesBot.model.bot.BotCommandInfo;
 
 import java.util.List;
 

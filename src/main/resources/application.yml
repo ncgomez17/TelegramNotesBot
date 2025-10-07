@@ -6,3 +6,13 @@ bot:
   api-key: ${TELEGRAM_BOT_API_KEY}
   username: ${TELEGRAM_BOT_USERNAME}
   webhook-path: "/webhook"
+
+astronomy:
+  stellarium:
+    base-url: "https://api.stellarium-web.org"
+  nasa:
+    base-url: "https://api.nasa.gov"
+    api-key: ${NASA_API_KEY:DEMO_KEY}
+  iss:
+    base-url: "http://api.open-notify.org"
+
