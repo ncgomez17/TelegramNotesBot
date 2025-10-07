@@ -47,7 +47,9 @@ public class TelegramBot extends TelegramWebhookBot {
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String messageText = update.getMessage().getText().toLowerCase();
+            String rawText = update.getMessage().getText();
+            String messageText = rawText.split(" ")[0].split("@")[0].toLowerCase();
+
             BotCommandHandler handler = commandRegistry.getHandler(messageText);
             if (handler != null) {
                 try {
@@ -69,5 +71,6 @@ public class TelegramBot extends TelegramWebhookBot {
         }
         return null;
     }
+
 
 }
