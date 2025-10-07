@@ -20,6 +20,7 @@ public class TelegramWebhookController {
 
     @PostMapping
     public ResponseEntity<?> onUpdateReceived(@RequestBody Update update) {
+        System.out.println("Entra por el controlador");
         telegramBot.onWebhookUpdateReceived(update);
         return ResponseEntity.ok().build();
     }

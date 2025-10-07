@@ -46,6 +46,7 @@ public class TelegramBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+        System.out.println("Entra por el manejador de comandos");
         if (update.hasMessage() && update.getMessage().hasText()) {
             String rawText = update.getMessage().getText();
             String messageText = rawText.split(" ")[0].split("@")[0].toLowerCase();
