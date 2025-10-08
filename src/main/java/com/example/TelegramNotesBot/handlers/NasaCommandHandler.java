@@ -21,7 +21,7 @@ public class NasaCommandHandler implements BotCommandHandler {
     }
 
     @Override
-    public Object handle(Update update) throws Exception {
+    public PartialBotApiMethod<?> handle(Update update) throws Exception {
         String chatId = update.getMessage().getChatId().toString();
         Map<String, Object> apod = nasaService.getAstronomyPictureOfTheDay();
 

@@ -3,6 +3,7 @@ package com.example.TelegramNotesBot.handlers;
 import com.example.TelegramNotesBot.constantes.BotCommandHandler;
 import com.example.TelegramNotesBot.services.VisiblePlanetsService;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -22,7 +23,7 @@ public class PlanetsCommandHandler implements BotCommandHandler {
     }
 
     @Override
-    public SendMessage handle(Update update) {
+    public PartialBotApiMethod<?> handle(Update update) {
         String chatId = update.getMessage().getChatId().toString();
 
         if (update.getMessage().hasLocation()) {

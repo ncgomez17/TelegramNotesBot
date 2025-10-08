@@ -46,43 +46,36 @@ public class TelegramBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        System.out.println("Entra por el manejador de comandos");
+        if (!update.hasMessage()) return null;
 
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            String rawText = update.getMessage().getText();
-            String messageText = rawText.split(" ")[0].split("@")[0].toLowerCase();
+        String messageText = update.getMessage().hasText()
+                ? update.getMessage().getText().split(" ")[0].split("@")[0].toLowerCase()
+                : "";
 
-            BotCommandHandler handler = commandRegistry.getHandler(messageText);
-            if (handler == null) {
-                return new SendMessage(update.getMessage().getChatId().toString(),
-                        "❓ Comando no reconocido. Usa /nasa, /planetas o /start");
-            }
+        BotCommandHandler handler = commandRegistry.getHandler(messageText);
 
-            try {
-                Object response = handler.handle(update);
-                System.out.println(response);
-
-                if (response instanceof BotApiMethod)
-                    return (BotApiMethod<?>) response;
-
-                if (response instanceof SendPhoto) {
-                    execute((SendPhoto) response);
-                    return null;
-                }
-                System.err.println("⚠️ Tipo de respuesta no manejado: " + response.getClass());
-                return null;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new SendMessage(update.getMessage().getChatId().toString(),
-                        "❌ Error al procesar el comando");
-            }
+        if (handler == null) {
+            return new SendMessage(update.getMessage().getChatId().toString(),
+                    "❓ Comando no reconocido. Usa /start, /planetas o /nasa");
         }
 
-        return null;
+        try {
+            // handler ahora devuelve PartialBotApiMethod<?>
+            PartialBotApiMethod<?> partialResponse = handler.handle(update);
+
+            if (partialResponse == null) {
+                return null;
+            }
+
+            // Casteamos explícitamente a BotApiMethod<?>
+            return (BotApiMethod<?>) partialResponse;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new SendMessage(update.getMessage().getChatId().toString(),
+                    "❌ Error al procesar el comando");
+        }
     }
-
-
 
 
 }
