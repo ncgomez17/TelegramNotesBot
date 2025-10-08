@@ -28,17 +28,21 @@ public class NasaCommandHandler implements BotCommandHandler {
         String title = (String) apod.get("title");
         String explanation = (String) apod.get("explanation");
         String imageUrl = (String) apod.get("url");
-        System.out.println(title);
-        System.out.println(explanation);
-        System.out.println(imageUrl);
+        String caption = "🌌 *" + title + "*\n\n" + explanation;
+
+        //Para que no de error de caption muy grande
+        if (caption.length() > 1024) {
+            caption = caption.substring(0, 1020) + "...";
+        }
 
         SendPhoto photo = new SendPhoto();
         photo.setChatId(chatId);
         photo.setPhoto(new InputFile(imageUrl));
-        photo.setCaption("🌌 *" + title + "*\n\n" + explanation);
+        photo.setCaption(caption);
         photo.setParseMode("Markdown");
 
         return photo;
+
     }
 
 }

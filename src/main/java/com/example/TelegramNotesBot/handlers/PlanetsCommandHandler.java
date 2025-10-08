@@ -37,7 +37,6 @@ public class PlanetsCommandHandler implements BotCommandHandler {
             return new SendMessage(chatId, message);
 
         } else {
-            // Si no hay ubicación, pedimos al usuario que la envíe
             SendMessage msg = new SendMessage();
             msg.setChatId(chatId);
             msg.setText("Por favor, envíame tu ubicación para calcular los planetas visibles.");

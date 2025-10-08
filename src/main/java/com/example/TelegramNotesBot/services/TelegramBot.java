@@ -48,11 +48,15 @@ public class TelegramBot extends TelegramWebhookBot {
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         if (!update.hasMessage()) return null;
 
-        String messageText = update.getMessage().hasText()
-                ? update.getMessage().getText().split(" ")[0].split("@")[0].toLowerCase()
-                : "";
+        BotCommandHandler handler = null;
+        if (update.getMessage().hasText()) {
+            String messageText = update.getMessage().getText().split(" ")[0].split("@")[0].toLowerCase();
+            handler = commandRegistry.getHandler(messageText);
+        } else if (update.getMessage().hasLocation()) {
+            // Usamos el mismo handler de /planetas
+            handler = commandRegistry.getHandler("/planetas");
+        }
 
-        BotCommandHandler handler = commandRegistry.getHandler(messageText);
 
         if (handler == null) {
             try {
