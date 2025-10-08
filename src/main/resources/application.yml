@@ -16,3 +16,9 @@ astronomy:
   iss:
     base-url: "http://api.open-notify.org"
 
+logging:
+  level:
+    root: info
+    com.example.TelegramNotesBot: info
+
+

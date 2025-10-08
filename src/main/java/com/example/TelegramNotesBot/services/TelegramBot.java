@@ -2,24 +2,25 @@ package com.example.TelegramNotesBot.services;
 
 import com.example.TelegramNotesBot.constantes.BotCommandHandler;
 import com.example.TelegramNotesBot.model.bot.BotProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class TelegramBot extends TelegramWebhookBot {
 
     private final BotProperties botProperties;
     private final BotCommandRegistry commandRegistry;
+
+    private static final Logger logger = LoggerFactory.getLogger(TelegramBot.class);
 
     public TelegramBot(BotProperties botProperties,
                        BotCommandRegistry commandRegistry,
@@ -46,24 +47,30 @@ public class TelegramBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        if (!update.hasMessage()) return null;
+        if (!update.hasMessage()) {
+            logger.warn("Update recibido sin mensaje, ignorando");
+            return null;
+        }
 
         BotCommandHandler handler = null;
+        String chatId = update.getMessage().getChatId().toString();
+
         if (update.getMessage().hasText()) {
             String messageText = update.getMessage().getText().split(" ")[0].split("@")[0].toLowerCase();
             handler = commandRegistry.getHandler(messageText);
+            logger.info("Comando recibido: '{}' en chatId={}", messageText, chatId);
         } else if (update.getMessage().hasLocation()) {
             // Usamos el mismo handler de /planetas
             handler = commandRegistry.getHandler("/planetas");
+            logger.info("Ubicación recibida en chatId={}", chatId);
         }
 
-
         if (handler == null) {
+            logger.warn("Comando no reconocido en chatId={}", chatId);
             try {
-                execute(new SendMessage(update.getMessage().getChatId().toString(),
-                        "❓ Comando no reconocido. Usa /start, /planetas o /nasa"));
+                execute(new SendMessage(chatId, "❓ Comando no reconocido. Usa /start, /planetas o /nasa"));
             } catch (TelegramApiException e) {
-                e.printStackTrace();
+                logger.error("Error al enviar mensaje de comando no reconocido", e);
             }
             return null;
         }
@@ -71,25 +78,24 @@ public class TelegramBot extends TelegramWebhookBot {
         try {
             Object response = handler.handle(update); // puede ser SendMessage, SendPhoto, etc.
 
-            if (response instanceof SendMessage) {
-                execute((SendMessage) response);
-            } else if (response instanceof SendPhoto) {
-                execute((SendPhoto) response);
+            if (response instanceof SendMessage sendMessage) {
+                logger.info("Enviando SendMessage a chatId={}", chatId);
+                execute(sendMessage);
+            } else if (response instanceof SendPhoto sendPhoto) {
+                logger.info("Enviando SendPhoto a chatId={}", chatId);
+                execute(sendPhoto);
             } else {
-                System.err.println("⚠️ Tipo de respuesta no manejado: " + response.getClass());
+                logger.warn("Tipo de respuesta no manejado: {} en chatId={}", response.getClass(), chatId);
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error al procesar comando en chatId={}", chatId, e);
             try {
-                execute(new SendMessage(update.getMessage().getChatId().toString(),
-                        "❌ Error al procesar el comando"));
+                execute(new SendMessage(chatId, "❌ Error al procesar el comando"));
             } catch (TelegramApiException ex) {
-                ex.printStackTrace();
+                logger.error("Error al enviar mensaje de error", ex);
             }
         }
-
-        // Siempre devolvemos null porque ya ejecutamos el mensaje
         return null;
     }
 
