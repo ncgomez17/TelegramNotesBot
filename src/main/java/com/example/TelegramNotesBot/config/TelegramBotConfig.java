@@ -2,8 +2,6 @@ package com.example.TelegramNotesBot.config;
 
 import com.example.TelegramNotesBot.model.bot.BotProperties;
 import com.example.TelegramNotesBot.services.BotCommandRegistry;
-import com.example.TelegramNotesBot.services.NasaService;
-import com.example.TelegramNotesBot.services.StellariumService;
 import com.example.TelegramNotesBot.services.TelegramBot;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

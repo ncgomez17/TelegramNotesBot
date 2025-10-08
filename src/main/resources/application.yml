@@ -8,8 +8,8 @@ bot:
   webhook-path: "/webhook"
 
 astronomy:
-  stellarium:
-    base-url: "https://api.stellarium-web.org"
+  visiblePlanets:
+    base-url: "https://api.visibleplanets.dev"
   nasa:
     base-url: "https://api.nasa.gov"
     api-key: ${NASA_API_KEY:DEMO_KEY}

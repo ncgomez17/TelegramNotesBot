@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class AstronomyProperties {
 
-    private Stellarium stellarium = new Stellarium();
+    private VisiblePlanets visiblePlanets= new VisiblePlanets();
     private Nasa nasa = new Nasa();
     private Iss iss = new Iss();
 
     @Getter @Setter
-    public static class Stellarium {
+    public static class VisiblePlanets {
         private String baseUrl;
     }
 
