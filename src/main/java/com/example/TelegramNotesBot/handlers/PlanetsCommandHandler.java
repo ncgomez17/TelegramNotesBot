@@ -23,7 +23,7 @@ public class PlanetsCommandHandler implements BotCommandHandler {
     }
 
     @Override
-    public PartialBotApiMethod<?> handle(Update update) {
+    public SendMessage handle(Update update) {
         String chatId = update.getMessage().getChatId().toString();
 
         if (update.getMessage().hasLocation()) {

@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class StartCommandHandler implements BotCommandHandler {
 
     @Override
-    public PartialBotApiMethod<?> handle(Update update) {
+    public SendMessage handle(Update update) {
         String chatId = update.getMessage().getChatId().toString();
         return new SendMessage(chatId, "👋 ¡Hola! Soy el bot multiusos de Nicolás.\nDe momento tenemos unas pocas funciones astronómicas.");
     }

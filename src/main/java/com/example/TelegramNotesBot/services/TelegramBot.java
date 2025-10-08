@@ -55,27 +55,40 @@ public class TelegramBot extends TelegramWebhookBot {
         BotCommandHandler handler = commandRegistry.getHandler(messageText);
 
         if (handler == null) {
-            return new SendMessage(update.getMessage().getChatId().toString(),
-                    "❓ Comando no reconocido. Usa /start, /planetas o /nasa");
+            try {
+                execute(new SendMessage(update.getMessage().getChatId().toString(),
+                        "❓ Comando no reconocido. Usa /start, /planetas o /nasa"));
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         try {
-            // handler ahora devuelve PartialBotApiMethod<?>
-            PartialBotApiMethod<?> partialResponse = handler.handle(update);
+            Object response = handler.handle(update); // puede ser SendMessage, SendPhoto, etc.
 
-            if (partialResponse == null) {
-                return null;
+            if (response instanceof SendMessage) {
+                execute((SendMessage) response);
+            } else if (response instanceof SendPhoto) {
+                execute((SendPhoto) response);
+            } else {
+                System.err.println("⚠️ Tipo de respuesta no manejado: " + response.getClass());
             }
-
-            // Casteamos explícitamente a BotApiMethod<?>
-            return (BotApiMethod<?>) partialResponse;
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new SendMessage(update.getMessage().getChatId().toString(),
-                    "❌ Error al procesar el comando");
+            try {
+                execute(new SendMessage(update.getMessage().getChatId().toString(),
+                        "❌ Error al procesar el comando"));
+            } catch (TelegramApiException ex) {
+                ex.printStackTrace();
+            }
         }
+
+        // Siempre devolvemos null porque ya ejecutamos el mensaje
+        return null;
     }
+
 
 
 }

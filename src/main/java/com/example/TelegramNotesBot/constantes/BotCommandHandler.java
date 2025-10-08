@@ -6,5 +6,5 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public interface BotCommandHandler {
-    PartialBotApiMethod<?> handle(Update update) throws Exception;
+    Object handle(Update update) throws Exception;
 }
