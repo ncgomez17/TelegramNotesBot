@@ -1,6 +1,7 @@
 package com.example.TelegramNotesBot.services;
 
 import com.example.TelegramNotesBot.constantes.BotCommandHandler;
+import com.example.TelegramNotesBot.handlers.HelpCommandHandler;
 import com.example.TelegramNotesBot.handlers.NasaCommandHandler;
 import com.example.TelegramNotesBot.handlers.PlanetsCommandHandler;
 import com.example.TelegramNotesBot.handlers.StartCommandHandler;
@@ -17,15 +18,24 @@ public class BotCommandRegistry {
     public BotCommandRegistry(
             StartCommandHandler startHandler,
             NasaCommandHandler nasaHandler,
-            PlanetsCommandHandler planetsHandler
+            PlanetsCommandHandler planetsHandler,
+            HelpCommandHandler helpCommandHandler
     ) {
         commands.put("/start", startHandler);
         commands.put("/nasa", nasaHandler);
+        commands.put("/solarFlares", nasaHandler);
+        commands.put("/asteroidsNear", nasaHandler);
+        commands.put("/earthEvents", nasaHandler);
         commands.put("/planetas", planetsHandler);
+        commands.put("/help", helpCommandHandler);
     }
 
     public BotCommandHandler getHandler(String command) {
         return commands.get(command.toLowerCase());
+    }
+
+    public Map<String, BotCommandHandler> getAllCommands() {
+        return Map.copyOf(commands);
     }
 }
 
