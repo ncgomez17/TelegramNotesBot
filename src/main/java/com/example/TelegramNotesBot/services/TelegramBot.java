@@ -13,6 +13,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.Locale;
+
 
 @Service
 public class TelegramBot extends TelegramWebhookBot {
@@ -56,9 +58,17 @@ public class TelegramBot extends TelegramWebhookBot {
         String chatId = update.getMessage().getChatId().toString();
 
         if (update.getMessage().hasText()) {
-            String messageText = update.getMessage().getText().split(" ")[0].split("@")[0].toLowerCase();
-            handler = commandRegistry.getHandler(messageText);
-            logger.info("Comando recibido: '{}' en chatId={}", messageText, chatId);
+            String rawText = update.getMessage().getText();
+            String command = rawText.trim()
+                    .split("\\s+")[0]
+                    .split("@")[0];
+
+            command = java.text.Normalizer.normalize(command, java.text.Normalizer.Form.NFD)
+                    .replaceAll("\\p{M}", "")
+                    .toLowerCase(Locale.ROOT)
+                    .trim();
+            handler = commandRegistry.getHandler(command);
+            logger.info("Comando recibido: '{}' en chatId={}", command, chatId);
         } else if (update.getMessage().hasLocation()) {
             // Usamos el mismo handler de /planetas
             handler = commandRegistry.getHandler("/planetas");
