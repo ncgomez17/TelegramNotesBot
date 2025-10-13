@@ -196,10 +196,9 @@ public class NasaCommandHandler implements BotCommandHandler {
             List<Map<String, Object>> geometries = (List<Map<String, Object>>) event.get("geometry");
             String date = geometries != null && !geometries.isEmpty() ? (String) geometries.get(0).get("date") : "Desconocida";
 
-            message.append("• <b>").append(title).append("</b><br>")
-                    .append("Fecha: ").append(date).append("<br>")
-                    .append("ID: ").append(id).append("<br><br>");
-
+            message.append("• <b>").append(title).append("</b>\n")
+                    .append("Fecha: ").append(date).append("\n")
+                    .append("ID: ").append(id).append("\n\n");
             count++;
         }
 
