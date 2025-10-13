@@ -79,26 +79,29 @@ public class NasaService {
 
     /**
      * Obtiene eventos naturales recientes de la NASA EONET.
-     * @param category Tipo de evento (volcanoes, wildfires, earthquakes, all)
-     * @param days Cantidad de días hacia atrás
+     * @param category Tipo de evento (volcanoes, wildfires, earthquakes)
      * @return Lista de eventos como Map<String, Object>
      */
     public List<Map<String, Object>> getEarthEvents(String category) {
         try {
+            LocalDate endDate = LocalDate.now();
+            LocalDate startDate = endDate.minusDays(7);
+
             return webClient.get()
                     .uri(uriBuilder -> {
                         var builder = uriBuilder
                                 .scheme("https")
                                 .host("eonet.gsfc.nasa.gov")
-                                .path("/api/v4/events")
+                                .path("/api/v3/events")
                                 .queryParam("status", "open")
-                                .queryParam("limit", 20);
+                                .queryParam("limit", 20)
+                                .queryParam("start", startDate)
+                                .queryParam("end", endDate);
 
-                        // Añadir categoría si es un número válido
-                        try {
-                            int categoryId = Integer.parseInt(category);
-                            builder.queryParam("category", categoryId);
-                        } catch (NumberFormatException ignored) {}
+                        // Solo añadir la categoría si el usuario la pasa
+                        if (category != null && !category.isBlank()) {
+                            builder.queryParam("category", category);
+                        }
 
                         return builder.build();
                     })
@@ -112,5 +115,7 @@ public class NasaService {
             return List.of();
         }
     }
+
+
 
 }
