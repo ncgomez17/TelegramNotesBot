@@ -88,7 +88,7 @@ public class NasaService {
                 .uri(uriBuilder -> uriBuilder
                         .scheme("https")
                         .host("eonet.gsfc.nasa.gov")
-                        .path("/api/v3/events")
+                        .path("/api/v4/events")
                         .queryParam("category", category)
                         .queryParam("days", days)
                         .queryParam("status", "open")

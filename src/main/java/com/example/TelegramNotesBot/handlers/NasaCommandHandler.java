@@ -35,7 +35,7 @@ public class NasaCommandHandler implements BotCommandHandler {
         } else if (messageText.equalsIgnoreCase("/asteroidsNear")) {
             return handleAsteroidsNear(chatId);
         }
-        else if(messageText.toLowerCase().startsWith("/solarFlares")){
+        else if(messageText.toLowerCase().startsWith("/solarflares")){
             String[] parts = messageText.split("\\s+");
             int days = 7; // valor por defecto
 
