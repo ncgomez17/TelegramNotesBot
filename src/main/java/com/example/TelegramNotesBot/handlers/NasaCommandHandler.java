@@ -196,9 +196,9 @@ public class NasaCommandHandler implements BotCommandHandler {
             List<Map<String, Object>> geometries = (List<Map<String, Object>>) event.get("geometry");
             String date = geometries != null && !geometries.isEmpty() ? (String) geometries.get(0).get("date") : "Desconocida";
 
-            message.append("• *").append(title).append("*\n")
-                    .append("Fecha: ").append(date).append("\n")
-                    .append("ID: ").append(id).append("\n\n");
+            message.append("• <b>").append(title).append("</b><br>")
+                    .append("Fecha: ").append(date).append("<br>")
+                    .append("ID: ").append(id).append("<br><br>");
 
             count++;
         }
@@ -206,7 +206,7 @@ public class NasaCommandHandler implements BotCommandHandler {
         message.append("_Fuente: NASA EONET API_");
 
         SendMessage msg = new SendMessage(chatId, message.toString());
-        msg.setParseMode("Markdown");
+        msg.setParseMode("HTML");
         return msg;
     }
 
