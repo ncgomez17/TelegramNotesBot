@@ -53,7 +53,7 @@ public class NasaCommandHandler implements BotCommandHandler {
         }
         else if (messageText.toLowerCase().startsWith("/earthevents")) {
             String[] parts = messageText.split("\\s+");
-            String category = "all"; // categoría por defecto
+            String category = null;
 
             if (parts.length > 1) {
                 category = parts[1].toLowerCase();
