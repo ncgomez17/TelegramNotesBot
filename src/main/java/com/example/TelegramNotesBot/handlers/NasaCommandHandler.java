@@ -54,19 +54,12 @@ public class NasaCommandHandler implements BotCommandHandler {
         else if (messageText.toLowerCase().startsWith("/earthevents")) {
             String[] parts = messageText.split("\\s+");
             String category = "all"; // categoría por defecto
-            int days = 7; // días por defecto
 
             if (parts.length > 1) {
                 category = parts[1].toLowerCase();
             }
-            if (parts.length > 2) {
-                try {
-                    days = Integer.parseInt(parts[2]);
-                    if (days <= 0) days = 7;
-                } catch (NumberFormatException ignored) {}
-            }
 
-            return handleEarthEvents(category, days, chatId);
+            return handleEarthEvents(category, chatId);
         }
         logger.info("Comando no reconocido.");
         SendMessage msg = new SendMessage();
@@ -184,15 +177,15 @@ public class NasaCommandHandler implements BotCommandHandler {
         return msg;
     }
 
-    private SendMessage handleEarthEvents(String category, int days, String chatId) {
-        logger.info("Ejecutando comando /earthEvents para chatId={} con categoría={} y días={}", chatId, category, days);
-        List<Map<String, Object>> events = nasaService.getEarthEvents(category, days);
+    private SendMessage handleEarthEvents(String category, String chatId) {
+        logger.info("Ejecutando comando /earthEvents para chatId={} con categoría={}", chatId, category);
+        List<Map<String, Object>> events = nasaService.getEarthEvents(category);
 
         if (events.isEmpty()) {
-            return new SendMessage(chatId, "🌎 No se encontraron eventos de tipo '" + category + "' en los últimos " + days + " días.");
+            return new SendMessage(chatId, "🌎 No se encontraron eventos de tipo '" + category + "' en los últimos " + " días.");
         }
 
-        StringBuilder message = new StringBuilder("🌎 *Eventos naturales recientes* (" + category + ", últimos " + days + " días):\n\n");
+        StringBuilder message = new StringBuilder("🌎 *Eventos naturales recientes* (" + category + ", últimos " + " días):\n\n");
 
         int count = 0;
         for (Map<String, Object> event : events) {

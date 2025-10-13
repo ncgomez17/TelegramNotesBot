@@ -83,31 +83,34 @@ public class NasaService {
      * @param days Cantidad de días hacia atrás
      * @return Lista de eventos como Map<String, Object>
      */
-    public List<Map<String, Object>> getEarthEvents(String category, int days) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .scheme("https")
-                        .host("eonet.gsfc.nasa.gov")
-                        .path("/api/v4/events")
-                        .queryParam("category", category)
-                        .queryParam("days", days)
-                        .queryParam("status", "open")
-                        .build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                .map(response -> (List<Map<String, Object>>) response.get("events"))
-                .blockOptional()
-                .orElse(List.of());
-    }
-
-    /**
-     * Sobrecarga: por defecto últimos 7 días y categoría "all"
-     */
     public List<Map<String, Object>> getEarthEvents(String category) {
-        return getEarthEvents(category, 7);
+        try {
+            return webClient.get()
+                    .uri(uriBuilder -> {
+                        var builder = uriBuilder
+                                .scheme("https")
+                                .host("eonet.gsfc.nasa.gov")
+                                .path("/api/v4/events")
+                                .queryParam("status", "open")
+                                .queryParam("limit", 20);
+
+                        // Añadir categoría si es un número válido
+                        try {
+                            int categoryId = Integer.parseInt(category);
+                            builder.queryParam("category", categoryId);
+                        } catch (NumberFormatException ignored) {}
+
+                        return builder.build();
+                    })
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                    .map(response -> (List<Map<String, Object>>) response.get("events"))
+                    .blockOptional()
+                    .orElse(List.of());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
     }
 
-    public List<Map<String, Object>> getEarthEvents() {
-        return getEarthEvents("all", 7);
-    }
 }
