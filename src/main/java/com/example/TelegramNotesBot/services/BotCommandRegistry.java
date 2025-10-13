@@ -21,13 +21,13 @@ public class BotCommandRegistry {
             PlanetsCommandHandler planetsHandler,
             HelpCommandHandler helpCommandHandler
     ) {
-        commands.put("/start", startHandler);
-        commands.put("/nasa", nasaHandler);
-        commands.put("/solarFlares", nasaHandler);
-        commands.put("/asteroidsNear", nasaHandler);
-        commands.put("/earthEvents", nasaHandler);
-        commands.put("/planetas", planetsHandler);
-        commands.put("/help", helpCommandHandler);
+        commands.put("/start".toLowerCase(), startHandler);
+        commands.put("/nasa".toLowerCase(), nasaHandler);
+        commands.put("/solarFlares".toLowerCase(), nasaHandler);
+        commands.put("/asteroidsNear".toLowerCase(), nasaHandler);
+        commands.put("/earthEvents".toLowerCase(), nasaHandler);
+        commands.put("/planetas".toLowerCase(), planetsHandler);
+        commands.put("/help".toLowerCase(), helpCommandHandler);
     }
 
     public BotCommandHandler getHandler(String command) {
