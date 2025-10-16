@@ -88,12 +88,20 @@ public class NasaCommandHandler implements BotCommandHandler {
 
         SendPhoto photo = new SendPhoto();
         photo.setChatId(chatId);
-        photo.setPhoto(new InputFile(imageUrl));
         photo.setCaption(caption);
         photo.setParseMode("Markdown");
 
+        // Solo setear la foto si la URL es válida
+        if (imageUrl != null && !imageUrl.isBlank()) {
+            photo.setPhoto(new InputFile(imageUrl));
+        } else {
+            logger.warn("La URL de la imagen está vacía, enviando solo texto para chatId={}", chatId);
+            // Puedes dejar la foto vacía, Telegram enviará solo el caption
+        }
+
         return photo;
     }
+
 
     private SendMessage handleAsteroidsNear(String chatId) {
         logger.info("Ejecutando comando /asteroidsNear para chatId={}", chatId);
