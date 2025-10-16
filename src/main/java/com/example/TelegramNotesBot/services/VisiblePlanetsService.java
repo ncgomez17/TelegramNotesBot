@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class VisiblePlanetsService {
 
     private final AstronomyProperties properties;
     private final WebClient webClient;
+    private static final Duration TIMEOUT = Duration.ofSeconds(10); // Timeout global
 
     public VisiblePlanetsService(AstronomyProperties properties) {
         this.properties = properties;
@@ -34,7 +36,12 @@ public class VisiblePlanetsService {
             Mono<Map> responseMono = webClient.get()
                     .uri(url)
                     .retrieve()
-                    .bodyToMono(Map.class);
+                    .bodyToMono(Map.class)
+                    .timeout(TIMEOUT)
+                    .onErrorResume(throwable -> {
+                        logger.error("Error al obtener planetas visibles o timeout excedido", throwable);
+                        return Mono.just(Map.of("planets", defaultPlanets()));
+                    });
 
             Map<String, Object> response = responseMono.block();
 
@@ -44,11 +51,16 @@ public class VisiblePlanetsService {
                 return planetas;
             } else {
                 logger.warn("No se encontraron planetas en la respuesta. Devolviendo lista por defecto.");
-                return Arrays.asList("Mercurio", "Venus", "Marte", "Júpiter", "Saturno");
+                return defaultPlanets();
             }
+
         } catch (Exception e) {
-            logger.error("Error al obtener planetas visibles", e);
-            return Arrays.asList("Mercurio", "Venus", "Marte", "Júpiter", "Saturno");
+            logger.error("Error inesperado al obtener planetas visibles", e);
+            return defaultPlanets();
         }
+    }
+
+    private List<String> defaultPlanets() {
+        return Arrays.asList("Mercurio", "Venus", "Marte", "Júpiter", "Saturno");
     }
 }
