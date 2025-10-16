@@ -77,7 +77,7 @@ public class NasaCommandHandler implements BotCommandHandler {
         String explanation = (String) apod.get("explanation");
         String imageUrl = (String) apod.get("url");
 
-        logger.debug("Datos APOD obtenidos - title: {}, imageUrl: {}", title, imageUrl);
+        logger.debug("Datos APOD obtenidos - title: {}, imageUrl={}", title, imageUrl);
 
         String caption = "🌌 *" + title + "*\n\n" + explanation;
 
@@ -91,16 +91,16 @@ public class NasaCommandHandler implements BotCommandHandler {
         photo.setCaption(caption);
         photo.setParseMode("Markdown");
 
-        // Solo setear la foto si la URL es válida
-        if (imageUrl != null && !imageUrl.isBlank()) {
-            photo.setPhoto(new InputFile(imageUrl));
-        } else {
-            logger.warn("La URL de la imagen está vacía, enviando solo texto para chatId={}", chatId);
-            // Puedes dejar la foto vacía, Telegram enviará solo el caption
+        // Si no hay URL válida, usar un placeholder
+        if (imageUrl == null || imageUrl.isBlank()) {
+            logger.warn("La URL de la imagen está vacía, usando placeholder para chatId={}", chatId);
+            imageUrl = "https://via.placeholder.com/800x600.png?text=Imagen+no+disponible";
         }
 
+        photo.setPhoto(new InputFile(imageUrl));
         return photo;
     }
+
 
 
     private SendMessage handleAsteroidsNear(String chatId) {
