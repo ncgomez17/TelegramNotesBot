@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -91,15 +92,18 @@ public class NasaCommandHandler implements BotCommandHandler {
         photo.setCaption(caption);
         photo.setParseMode("Markdown");
 
-        // Si no hay URL válida, usar un placeholder
+        // Si no hay URL válida, usar imagen local
         if (imageUrl == null || imageUrl.isBlank()) {
-            logger.warn("La URL de la imagen está vacía, usando placeholder para chatId={}", chatId);
-            imageUrl = "https://via.placeholder.com/800x600.png?text=Imagen+no+disponible";
+            logger.warn("La URL de la imagen está vacía, usando imagen local para chatId={}", chatId);
+            File notFoundImage = new File("src/main/resources/static/notfound.png");
+            photo.setPhoto(new InputFile(notFoundImage));
+        } else {
+            photo.setPhoto(new InputFile(imageUrl));
         }
 
-        photo.setPhoto(new InputFile(imageUrl));
         return photo;
     }
+
 
 
 
