@@ -4,6 +4,7 @@ import com.example.TelegramNotesBot.constantes.BotCommandHandler;
 import com.example.TelegramNotesBot.services.NasaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,7 @@ public class NasaCommandHandler implements BotCommandHandler {
     }
 
     @Override
-    public Object handle(Update update) {
+    public Object handle(Update update) throws IOException {
         String chatId = update.getMessage().getChatId().toString();
         String messageText = update.getMessage().getText().trim();
 
@@ -69,7 +71,7 @@ public class NasaCommandHandler implements BotCommandHandler {
         return msg;
     }
 
-    private SendPhoto handleNasaPicture(String chatId) {
+    private SendPhoto handleNasaPicture(String chatId) throws IOException {
         logger.info("Ejecutando comando /nasa para chatId={}", chatId);
 
         Map<String, Object> apod = nasaService.getAstronomyPictureOfTheDay();
@@ -95,8 +97,8 @@ public class NasaCommandHandler implements BotCommandHandler {
         // Si no hay URL válida, usar imagen local
         if (imageUrl == null || imageUrl.isBlank()) {
             logger.warn("La URL de la imagen está vacía, usando imagen local para chatId={}", chatId);
-            File notFoundImage = new File("src/main/resources/static/notfound.png");
-            photo.setPhoto(new InputFile(notFoundImage));
+            ClassPathResource resource = new ClassPathResource("static/notfound.png");
+            photo.setPhoto(new InputFile(resource.getInputStream(), "notfound.png"));
         } else {
             photo.setPhoto(new InputFile(imageUrl));
         }
